@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Service\UsuarioService;
 use Illuminate\Http\Request;
+use LDAP\Result;
+use PgSql\Result as PgSqlResult;
 
 class UsuarioController extends Controller
 {
@@ -18,5 +20,42 @@ class UsuarioController extends Controller
        $user = $this->usuarioService->create($request->all());
 
        return $user;
+    }
+
+    public function findById($id){
+      $result = $this->usuarioService->findById($id);
+      return response()->json ($result);
+
+    }
+
+    public function index(){
+      $result = $this->usuarioService->getAll();
+      return response()->json ($result);
+
+    }
+
+    public function searchByName(Request $request){
+      $result = $this->usuarioService->searchByName($request->nome);
+
+
+    }
+
+    public function searchByEmail(Request $request){
+      $result = $this->usuarioService->searchByEmail($request->Email);
+      return $result;
+
+    }
+
+
+    public function delete($id){
+      $result = $this->usuarioService->delete($id);
+       return $result;
+
+    }
+
+
+    public function update (Request $request){
+      $result = $this->usuarioService->update($request->all());
+      return response()->json($result);
     }
 }
